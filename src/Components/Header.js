@@ -22,7 +22,6 @@ function Header() {
     const dispatch=useDispatch();
 
     const LogOut=()=>{
-        console.log('logOut');
         dispatch(logout());
 
     }

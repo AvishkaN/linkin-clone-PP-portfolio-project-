@@ -12,38 +12,28 @@ import Event from '@mui/icons-material/Event';
 import WriteArticle from '@mui/icons-material/CalendarViewDay';
 
 import {selectUser} from './redux/userSlice';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { AddPost, selectPosts } from './redux/postSlice';
+import LoadingCir from './LoadingSpinner';
 
 
 
 function PostInput() {  
 
-    const [inputVal, setinputVal] = useState("");
-    const user=useSelector(selectUser);
-    
+        const [inputVal, setinputVal] = useState("");
+        const dispatch=useDispatch();
+        const user=useSelector(selectUser);
+        const post=useSelector(selectPosts);
+
 
     const handleAddPost=async (e)=>{
         e.preventDefault();
-        try{
+    
+        await AddPost(dispatch,inputVal,user,post);
+
+        setinputVal("");
             
 
-            
-              db.collection("post").add({
-                name:user.displayName,
-                description:"this is a test",
-                message:inputVal,
-                photoUrl:"",
-                timeStamp:firebase.firestore.FieldValue.serverTimestamp(), 
-            });
-
-            setinputVal("");
-            
-            // console.log(docRef.id);
-
-        }catch(err){
-            console.log(1);
-            console.log('💥💥💥💥',err);
-        }
     
     }
 
@@ -55,8 +45,11 @@ function PostInput() {
                    <form action="" onSubmit={handleAddPost}>
                         <Edit className="edit"/>
                         <input type="text" className="input" value={inputVal} onChange={(e)=>setinputVal(e.target.value)}/>
+                        {post.postInputLoading  && <LoadingCir  color={""} width="20px" height="20px" margin="0px" padding="0px" marginRight="8px"  marginTop="3px" /> }
+
                    </form>
                </div>
+
                <div className="buttons__container">
                     <InputButton
                         Text="Photo"
@@ -110,6 +103,16 @@ const DIV=styled.div`
     
                 input{   
                     width: 90%;  
+                }
+                .loadSpinner{
+                    background: red !important; 
+
+                    .load {
+                        width: 100px;
+                        height: 100px;
+                        margin: 110px auto 0;
+                        border:solid 10px green !important;
+                    }
                 }
             }
 

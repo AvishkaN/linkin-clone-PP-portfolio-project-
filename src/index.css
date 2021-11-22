@@ -9,9 +9,12 @@
 
 :root {
     --color-primary: #ff7779;
+    --linkind-color: #0090ff;
   }
   
-
+.iconI{
+    cursor: pointer;
+}
 
 .button{
     background: transparent;
@@ -41,6 +44,15 @@ h1{
 .input:focus{
     outline: none;
 }
+
+.textarea{ 
+    background: transparent;
+
+}
+.textarea:focus{
+    outline: none;
+}
+
 
 body{   
     background: rgb(239 237 237);

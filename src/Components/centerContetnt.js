@@ -2,48 +2,65 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import POST from './Post';
 import PostInput from './PostInput';
-import FlipMove from 'react-flip-move';
 
-// import { collection, addDoc ,FieldValue,getDocs} from "firebase"; 
-import {db} from "./Firebase"; 
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPosts, selectPosts } from './redux/postSlice';
+import LoadingCir from './LoadingSpinner';
+
+
+const genarateDate=(timeStamp)=>{
+
+    const year=new Date(timeStamp*1000).getFullYear();
+    const month=new Date(timeStamp*1000).toLocaleString('default', { month: 'short' });
+    const date=new Date(timeStamp*1000).toLocaleString("en-US", {day: "numeric"});
+  
+    const hour=new Date(timeStamp*1000).toLocaleString("en-US", {hour: "numeric"}); 
+    const minute=new Date(timeStamp*1000).toLocaleString("en-US", {minute: "numeric"}); 
+
+    const status=`${hour}`.replace(/[^a-z]/gi, '');
+    const hourNum=`${hour}`.replace(/\D+/g, "");
+
+   
+
+    const str=`${year}/${month}/${date}` + "   "+ "   "+ `${hourNum}:${minute} ${status}`;
+
+
+
+    return str;
+};
+
 
 
 function Center() {
-    const [Posts, setPost] = useState([]);
+    const dispatch=useDispatch();
+    const Posts=useSelector(selectPosts);
+    
 
-    useEffect(async()=>{
+    useEffect(()=>{
      
-        
-        db.collection("post")
-             .orderBy("timeStamp","desc")
-            .onSnapshot((snapshot)=>{
-                setPost(
-                    snapshot.docs.map(doc=>({
-                        id:doc.id,
-                        data:doc.data(),
-                    }))
-                )
-            })
-
+        fetchPosts(dispatch);
+                
     },[]);
+
 
 
 
     return (   
         <DIV>
             <PostInput />
-            {console.log(Posts)}
 
-            <FlipMove>
-                {Posts.map(doc=>( 
+            {Posts.loading  && <LoadingCir/>}
+            {Posts.error && <p>{Posts.error.payload}</p>}
+
+                {Posts.posts.map(doc=>( 
                         <POST 
                             key={doc.id}
+                            id={doc.id}
                             name={doc.data.name}
-                            time={doc.data.time}
+                            time={genarateDate(doc.data.timeStamp?.seconds?doc.data.timeStamp.seconds :1637161290)}
                             message={doc.data.message}
                         />
                 ))}
-        </FlipMove>
         </DIV>
     )
 }

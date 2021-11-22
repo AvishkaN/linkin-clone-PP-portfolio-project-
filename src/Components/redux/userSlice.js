@@ -21,7 +21,6 @@ export const userSlice=createSlice({
             state.user=action.payload;
         },
         logout:(state)=>{
-            console.log('slice');
             state.user=null;
         }
     }

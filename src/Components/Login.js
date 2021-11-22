@@ -21,10 +21,8 @@ function Login() {
 
         e.preventDefault();
 
-        // console.log(1);
         firebase.auth().createUserWithEmailAndPassword(email,password)
         .then((userAuth)=>{
-            console.log(2);
             userAuth.user.updateProfile({
                 displayName:fullname,
                 photoUrl:profilePic
@@ -48,13 +46,11 @@ function Login() {
 
     const loginHandler=(e)=>{
 
-        console.log('$$$$$$$$$');
 
         e.preventDefault();
 
         firebase.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
-            console.log(userCredential.user);
 
             dispatch(
                 login({
