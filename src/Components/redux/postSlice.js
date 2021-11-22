@@ -144,7 +144,7 @@ export  const EditPost=async (id,message,user,dispatch)=>{
             dispatch(closePostEditor());       
 
 
-        })
+        })    
         .catch((error) => {
             console.error("Error writing document: ", error);
         });
