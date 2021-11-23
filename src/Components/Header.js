@@ -16,7 +16,7 @@ import { logout } from './redux/userSlice';
 // import {Avata} from '@mui/core';
 
 
-function Header() {
+function Header({className}) {
 
     
     const dispatch=useDispatch();
@@ -27,7 +27,7 @@ function Header() {
     }
 
     return (   
-        <DIV className="header">
+        <DIV className={"header" && className}>
             <div className="header__left">
                 <div className="image">
                     <LinkInd className="logo"/>

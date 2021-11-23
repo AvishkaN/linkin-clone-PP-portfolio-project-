@@ -5,11 +5,11 @@ import {Avatar} from '@mui/material';
 import { useSelector } from 'react-redux';
 import { selectUser} from './redux/userSlice';
 
-function LeftSideBar() {
+function LeftSideBar({className}) {
     const user=useSelector(selectUser);
 
     return (   
-        <DIV>
+        <DIV className={className && className}>
            <div className="name-card">
                <div className="top">
                    <div className="background"></div>

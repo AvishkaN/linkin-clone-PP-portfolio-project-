@@ -47,6 +47,7 @@ function Center() {
 
     return (   
         <DIV>
+             
             <PostInput />
 
             {Posts.loading  && <LoadingCir/>}
@@ -61,6 +62,9 @@ function Center() {
                             message={doc.data.message}
                         />
                 ))}
+
+              
+
         </DIV>
     )
 }

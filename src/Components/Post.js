@@ -2,12 +2,13 @@ import React from 'react'
 import styled from 'styled-components';
 import {Avatar} from '@mui/material';
 
-import Like from '@mui/icons-material/ThumbUpSharp';
 import Menu from '@mui/icons-material/MoreVert';
+import Like from '@mui/icons-material/ThumbUpSharp';
 import Comment from '@mui/icons-material/Comment';
 import Share from '@mui/icons-material/Share';
 import Send from '@mui/icons-material/Send';
 import PostInput from './PostEdit';
+import BtnRow from './UI/btn-row/btnRow';
 
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,17 +17,9 @@ import { openOverlayFN, selectClick } from './redux/clickSlice';
 import PostMenu from './../Components/PostMenu';
 
 
-const GenarateButton=(Icon,Text)=>{
-    return(
-        <div className="btn">
-            <Icon className="icon"/>
-            <p>{Text}</p>
-        </div>
-    );
-};
 
 
-function POST({name,time="2021/11/13",message,id}) {
+function POST({name,time="2021/11/13",message,id,classsName,showText}) {
     const dispatch=useDispatch();
     const clicks=useSelector(selectClick);
 
@@ -39,7 +32,7 @@ function POST({name,time="2021/11/13",message,id}) {
     return (   
 
      
-        <DIV>
+        <DIV className={classsName && classsName}>
             <div className="wrapper">
                 <div className="top">
                     <Avatar className="avatar">{name[0]}</Avatar>
@@ -60,10 +53,7 @@ function POST({name,time="2021/11/13",message,id}) {
                         <p>{message} </p>
                 </div>
                 <div className="bottom">
-                  {GenarateButton(Like,"Like")}
-                  {GenarateButton(Comment,"Comment")}
-                  {GenarateButton(Share,"Share")}
-                  {GenarateButton(Send,"Send")}
+                  <BtnRow showText={showText}/>
                 </div>
             
 
@@ -83,6 +73,11 @@ const DIV=styled.div`
     padding-bottom:30px;
     border-radius: 15px;
     position: relative;
+    cursor: pointer;
+
+    &:hover{   
+        box-shadow: 1px 1px 1px 1px #888888;
+    }
 
      .wrapper{
         margin: 0px auto;

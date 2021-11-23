@@ -7,7 +7,8 @@ import Logo from '../assets/login-logo.svg';
 // import {createUserWithEmailAndPassword,getAuth} from "./Firebase";
 import firebase from "firebase/app";
 
-import { login } from './redux/userSlice';
+import { login } from '../Components/redux/userSlice';
+import { Link } from 'react-router-dom';
 
 function Login() {
     const [fullname,setFullName]=useState("");
@@ -44,27 +45,6 @@ function Login() {
       
     };
 
-    const loginHandler=(e)=>{
-
-
-        e.preventDefault();
-
-        firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-
-            dispatch(
-                login({
-                    email:userCredential.user.email,
-                    uid:userCredential.user.uid,
-                    displayName:userCredential.user.displayName,
-                    photoUrl:userCredential.user.photoURL,
-                })
-            )
-        })
-        .catch(error => {
-            alert(error.message);
-        });
-    };
 
 
     return (
@@ -78,8 +58,8 @@ function Login() {
                 <input type="text"  placeholder="Profile pic URL (optional)" value={profilePic} onChange={(e)=>setProfilePic(e.target.value)}/>
                 <input type="text"  placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)}/>
                 <input type="password"  placeholder="Password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
-                <button type="submit" onClick={loginHandler}>Log in</button>
-                <a href="" onClick={register}>Not a member? <span className="txt">Register</span></a>
+                <a href="" className="a" onClick={register}>Register</a>
+                <p href="" className="logged-in-text">you are alredy logged in? <Link to="/login">log in</Link></p>
             </form>
         </DIV>
     )
@@ -123,16 +103,26 @@ const DIV=styled.div`
 
             }
 
-            a{
+            .a{
                 text-decoration: none;
                 color: inherit;
                 text-align:center;  
                 margin-top: 35px;   
+                background:#346edf;
+                color:#fff;
+                padding: 6px;
 
+                
+            }
 
-                .txt{
-                    color:#4a63c7;
-                    font-weight: bold;  
+            .logged-in-text{ 
+                margin-top:20px;      
+                text-align:center;
+
+                a{
+                    text-decoration: none;
+                    color: #346edf;
+                    font-weight:bold; 
                 }
             }
         }
