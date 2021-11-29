@@ -97,6 +97,7 @@ export const  fetchPosts =async(dispatch) =>{
             message:postMessage,
             photoUrl:"",
             timeStamp:firebase.firestore.FieldValue.serverTimestamp(), 
+            likedBy:[],
         });
 
 
@@ -130,31 +131,71 @@ export  const DeletePost=async (id,dispatch)=>{
 
 export  const EditPost=async (id,message,user,dispatch)=>{
 
+
+    
+    
     try{
+        const Doc = db.collection('post').doc(id);
+        await Doc.update({  
+            message:message,
+            timeStamp:firebase.firestore.FieldValue.serverTimestamp(), 
+        }); 
+        dispatch(closeOverlayFN());       
+        dispatch(closePostEditor());       
+      
         
-     await db.collection("post").doc(id).set({
-        name:user.displayName,
-        description:"this is a test",
-        message:message,
-        photoUrl:"",
-        timeStamp:firebase.firestore.FieldValue.serverTimestamp(), 
-        })
-        .then(() => {
-            dispatch(closeOverlayFN());       
-            dispatch(closePostEditor());       
+        
+        
+    }catch(error){  
+        console.error("Error writing document: ", error);
+
+    }
+
+};
+
+const filteredPost=(posts,id)=>{
+ const likedByArr=posts.filter(post=>post.id===id);
+//  console.log(x.data.likedBy);  
+
+//  console.log(likedByArr);
+ return likedByArr;  
+};
 
 
-        })    
-        .catch((error) => {
-            console.error("Error writing document: ", error);
+export  const LikePost=async (postId,posts,userEmail)=>{
+
+    // liked userers array
+    const likedByArr= filteredPost(posts,postId)[0].data.likedBy;
+    
+     // current user is liked this post before ?
+    const isLikedBeforeArr=likedByArr.filter(userEmailAddress=>userEmailAddress==userEmail);
+    
+    let newUpdatedArr;
+    
+    if(isLikedBeforeArr.length){ // current user is liked this post 
+
+        newUpdatedArr=likedByArr.filter(emaiL=>{  // remove current user from likedUseres array
+            return emaiL!==userEmail
         });
-     
+
+    }else{  // current user didn't liked this post 
+        newUpdatedArr=likedByArr.concat(userEmail); // add this use likedUseres array
+
+    }
+
+
+    
+    try{ 
+        // update  firebase new userLikedArray 
+
+        const Doc = db.collection('post').doc(postId);
+        await Doc.update({likedBy:newUpdatedArr}); 
 
     }catch(err){
 
     }
 
-}
+};
 
 
 

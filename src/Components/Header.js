@@ -13,10 +13,11 @@ import Notification from '@mui/icons-material/Notifications';
 import {Avatar} from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { logout } from './redux/userSlice';
+import { Link } from 'react-router-dom';
 // import {Avata} from '@mui/core';
 
 
-function Header({className}) {
+function Header() {
 
     
     const dispatch=useDispatch();
@@ -27,10 +28,12 @@ function Header({className}) {
     }
 
     return (   
-        <DIV className={"header" && className}>
+        <DIV className={"header"}>
             <div className="header__left">
                 <div className="image">
-                    <LinkInd className="logo"/>
+                    <Link to="/">
+                        <LinkInd className="logo"/>
+                    </Link>
                 </div>
                 <div className="search">
                      <Search/>
@@ -77,6 +80,10 @@ const DIV=styled.div`
     align-items: center;
     border-bottom: .5px solid #000;
     padding: 10px 50px;    
+
+    background: #efeded;
+    position: fixed;
+    z-index:1000;
     .header{
         &__left{
             display: flex;

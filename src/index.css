@@ -10,6 +10,7 @@
 :root {
     --color-primary: #ff7779;
     --linkind-color: #0090ff;
+    --icon-hover-color: #b1b1b12e;
   }
   
 .iconI{
@@ -53,6 +54,13 @@ h1{
     outline: none;
 }
 
+.a{
+    text-decoration: none;
+    color: inherit;
+}
+.a:active{  
+    color: inherit;
+}
 
 body{   
     background: rgb(239 237 237);

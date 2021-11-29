@@ -26,8 +26,8 @@ function Comp({on}) {
 
 
 const DIV=styled.div`   
-     background: transparent;
-     background: #00000073; 
+     background: transparent;    
+     background: #000000ba; 
      backdrop-filter : blur(2px);
      position: absolute;
       top: 0;  

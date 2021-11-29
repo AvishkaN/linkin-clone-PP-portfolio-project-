@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import {Avatar} from '@mui/material';
 
@@ -12,16 +12,24 @@ import BtnRow from './UI/btn-row/btnRow';
 
 
 import { useDispatch, useSelector } from 'react-redux';
-import { openOverlayFN, selectClick } from './redux/clickSlice';
+import { openOverlayFN, openCommentEditorFN, selectClick, selectPostFN } from './redux/clickSlice';
 
 import PostMenu from './../Components/PostMenu';
+import { Link } from 'react-router-dom';
+import { LikePost} from './redux/postSlice';
+import { selectUser } from './redux/userSlice';
+import { selectPosts } from './redux/postSlice';
+import { selectPostById } from './Function/genaralFunctions';
 
 
 
 
-function POST({name,time="2021/11/13",message,id,classsName,showText}) {
+function POST({name="name",time="2021/11/13",message="message",id,classsName,showText,linkworking=false,isLiked}) {
+ 
     const dispatch=useDispatch();
     const clicks=useSelector(selectClick);
+    const user=useSelector(selectUser);
+    const post=useSelector(selectPosts);
 
 
     const openOverlay=()=>{
@@ -29,17 +37,42 @@ function POST({name,time="2021/11/13",message,id,classsName,showText}) {
         
     };
 
+    const buttonRowHandler=(action)=>{
+        if(action=="like"){
+            LikePost(id,post.posts,user.email);
+        }
+        if(action=="comment"){
+
+            dispatch(openCommentEditorFN());
+
+        }
+    };
+
+    const handleGenaralClick=()=>{
+
+        dispatch(selectPostFN(selectPostById(post,id)));
+
+    };
+
     return (   
 
-     
-        <DIV className={classsName && classsName}>
+
+        <DIV className={classsName && classsName} onClick={handleGenaralClick}>
             <div className="wrapper">
                 <div className="top">
                     <Avatar className="avatar">{name[0]}</Avatar>
                     <div className="name-date-container">
 
                         <div className="name-date">
+
+                    { linkworking ? 
+
+                    <Link to={`/posts/${id}` }className="Link a">
                             <h2>{name}</h2>
+                    </Link>  :   
+                     <h2>{name}</h2>
+                    }
+
                             <p>{time}</p>
                         </div>
 
@@ -50,10 +83,10 @@ function POST({name,time="2021/11/13",message,id,classsName,showText}) {
                 {clicks.clickedPostId==id && clicks.openMessage && <PostMenu id={id}/>}
 
                 <div className="center">
-                        <p>{message} </p>
+                        <p>{message} </p> 
                 </div>
                 <div className="bottom">
-                  <BtnRow showText={showText}/>
+                  <BtnRow showText={showText} buttonRowHandler={buttonRowHandler} isLiked={isLiked}/>
                 </div>
             
 
@@ -61,6 +94,7 @@ function POST({name,time="2021/11/13",message,id,classsName,showText}) {
             {clicks.clickedPostId==id && clicks.showPostEditor && (<PostInput message={message} id={id}/>)}
               
         </DIV>
+
     )
 }
 
@@ -76,7 +110,8 @@ const DIV=styled.div`
     cursor: pointer;
 
     &:hover{   
-        box-shadow: 1px 1px 1px 1px #888888;
+        /* box-shadow: 1px 1px 1px 1px #888888; */
+        /* background: #0000000a;      */
     }
 
      .wrapper{

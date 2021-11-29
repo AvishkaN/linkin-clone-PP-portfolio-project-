@@ -1,22 +1,35 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
-import POST from '../Post';
+import { selectCommentById } from '../Function/genaralFunctions';
+import Comment from '../Post';
 
-function Compent() {
+function Compent({commentsState,postId}) {
+    const [relavantComments,setRelavantComments]=useState([]);
+    useEffect(() => {
+
+        const GenareteRelavantComments=selectCommentById(commentsState,postId);
+      
+        setRelavantComments(GenareteRelavantComments);
+    }, [commentsState]);
+
     return (   
         <DIV>
-            
-            <POST 
-                    key={`doc.id`}
-                    id={`doc.id`}
-                    name={'jhon kd'}
-                    time={"2021/Nov/22 11:25 AM"}
-                    message={`News is out that fertilizer ban eficiency in democratic `}
-                    classsName="Comment"
-                    showText={false}
-            />
-            <POST 
-                    key={`doc.id`}
+            {/* {console.log(commentsState)} */}
+            {
+                relavantComments.map(comment=>(
+                    <Comment 
+                            key={comment.id}
+                            id={comment.id}
+                            name={'jhon kd'}
+                            time={"2021/Nov/22 11:25 AM"}
+                            message={comment.data.Comment}
+                            classsName="Comment"
+                            showText={false}
+                    />
+                ))
+            }
+            {/* <Comment 
+                    key={`doc.id2`}
                     id={`doc.id`}
                     name={'jhon kd'}
                     time={"2021/Nov/22 11:25 AM"}
@@ -25,8 +38,8 @@ function Compent() {
                     showText={false}
 
             />
-            <POST 
-                    key={`doc.id`}
+            <Comment 
+                    key={`doc.id3`}
                     id={`doc.id`}
                     name={'jhon kd'}
                     time={"2021/Nov/22 11:25 AM"}
@@ -34,7 +47,7 @@ function Compent() {
                     classsName="Comment"
                     showText={false}
 
-            />
+            /> */}
 
 
         </DIV>

@@ -45,14 +45,15 @@ function App() {
                    {!user &&<RegisterPage/>}
                 </Route>
 
-                <Route path="/posts" exact>
+                <Route path="/posts/:postId" exact>
                    {<SinglePost/>}
+                   <Wrapper on={clicks.openOverlay} />
+
                 </Route>
 
                 <Route path="/" exact>
-                      {user  && (<Header/>)}
+                      {user  && (<Header />)}
                       {user ? (<Main/>): (<RedirectPage/>)}
-
                       <Wrapper on={clicks.openOverlay} />
                 </Route>
 

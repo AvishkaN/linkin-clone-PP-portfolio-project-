@@ -6,6 +6,8 @@ import PostInput from './PostInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts, selectPosts } from './redux/postSlice';
 import LoadingCir from './LoadingSpinner';
+import { Link } from 'react-router-dom';
+import { selectUser } from './redux/userSlice';
 
 
 const genarateDate=(timeStamp)=>{
@@ -31,9 +33,23 @@ const genarateDate=(timeStamp)=>{
 
 
 
+const CheckisLiked=(likedBy,user)=>{
+    let isLiked=false;
+
+    if(likedBy.filter(email=>email==user.email).length){
+        isLiked=!isLiked;
+          
+    }
+
+    return isLiked;
+};
+
+
 function Center() {
     const dispatch=useDispatch();
     const Posts=useSelector(selectPosts);
+    const user=useSelector(selectUser);
+
     
 
     useEffect(()=>{
@@ -42,28 +58,36 @@ function Center() {
                 
     },[]);
 
+    
 
 
 
     return (   
         <DIV>
              
+            <div className="wrapper">
+
             <PostInput />
 
             {Posts.loading  && <LoadingCir/>}
             {Posts.error && <p>{Posts.error.payload}</p>}
 
-                {Posts.posts.map(doc=>( 
-                        <POST 
-                            key={doc.id}
-                            id={doc.id}
-                            name={doc.data.name}
-                            time={genarateDate(doc.data.timeStamp?.seconds?doc.data.timeStamp.seconds :1637161290)}
-                            message={doc.data.message}
-                        />
-                ))}
 
-              
+            {Posts.posts.map(doc=>( 
+
+                    <POST 
+                    key={doc.id}
+                    id={doc.id}
+                    name={doc.data.name}
+                    time={genarateDate(doc.data.timeStamp?.seconds?doc.data.timeStamp.seconds :1637161290)}
+                    message={doc.data.message}
+                    linkworking={true}
+                    isLiked={CheckisLiked(doc.data?.likedBy,user)}
+                    />
+
+            ))}
+                
+            </div>
 
         </DIV>
     )
@@ -74,6 +98,21 @@ const DIV=styled.div`
 
      flex-basis:70%;
     width: 100%; 
+
+    .wrapper{
+        
+        position: relative; 
+        max-height:100vh;     
+        overflow:auto;
+
+        &::-webkit-scrollbar { 
+            width: 0 !important 
+        }
+
+       
+
+    
+    }
 `;      
 
 

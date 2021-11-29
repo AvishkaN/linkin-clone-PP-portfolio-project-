@@ -9,6 +9,7 @@ import firebase from "firebase/app";
 
 import { login } from '../Components/redux/userSlice';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 function Login() {
     const [fullname,setFullName]=useState("");
@@ -16,6 +17,7 @@ function Login() {
     const [email,setEmail]=useState("");
     const [password,setPassword]=useState("");
     const dispatch=useDispatch();
+    const history=useHistory();
 
     
     const register=(e)=>{
@@ -30,13 +32,14 @@ function Login() {
             })
             .then(()=>{
                 dispatch(
-                    login({
+                    login({ 
                         email:userAuth.user.email,
                         uid:userAuth.user.uid,
                         displayName:fullname,
                         photoUrl:profilePic,
                     })
-                )
+                )   
+                history.push("/");
             })
         }).catch(err=>alert(err.message))
 

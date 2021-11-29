@@ -10,6 +10,8 @@ export const clickSlice=createSlice({
        openMessage:true,
        
        showPostEditor:false,
+       showPostCommentEditor:false,
+       selectPost:"",
 
     },
     reducers:{
@@ -18,6 +20,17 @@ export const clickSlice=createSlice({
             state.openOverlay=true;
             state.openMessage=true;
             state.clickedPostId=action.payload;
+        },
+        openCommentEditorFN:(state)=>{
+
+            // state.openOverlay=true;
+            state.showPostCommentEditor=true;
+            
+        },
+        closeCommentEditorFN:(state)=>{
+
+            // state.openOverlay=true;
+            state.showPostCommentEditor=false;
             
         },
         closeOverlayFN:(state,action)=>{
@@ -38,12 +51,16 @@ export const clickSlice=createSlice({
             state.openOverlay=false; 
 
         },
+        selectPostFN:(state,action)=>{
+            state.selectPost=action.payload; 
+
+        },
        
     }
 });
 
 
-export const {openOverlayFN,closeOverlayFN,closeMeassageFN,openPostEditor,closePostEditor} =clickSlice.actions;
+export const {openOverlayFN,closeOverlayFN,closeMeassageFN,openCommentEditorFN,closeCommentEditorFN,openPostEditor,closePostEditor,selectPostFN} =clickSlice.actions;
 
 
 //selectors

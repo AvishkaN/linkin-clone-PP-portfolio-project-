@@ -9,13 +9,31 @@ import Send from '@mui/icons-material/Send';
 
 
 
-function Compent({showText=true}) {
+function Compent({showText=true,buttonRowHandler,isLiked}) {
+
+    const handleClick=(e)=>{
+        // console.log(e.target);    
+        // console.log(e.target.closest('div').classList[1]);   
+
+
+        if(e.target.closest('div').classList[1]==="like-data-set"){
+
+            return  buttonRowHandler("like");
+        }
+        if(e.target.closest('div').classList[1]==="comment-data-set"){
+
+            return  buttonRowHandler("comment");
+        }
+
+        return;
+    };
+
     return (   
-        <DIV >
-            <GenarateBtn Icon={Like} Text={showText && "Like"} className="btn"/>
-            <GenarateBtn Icon={Comment} Text={showText &&"Comment"} className="btn"/>
-            <GenarateBtn Icon={Share} Text={showText &&"Share"} className="btn"/>
-            <GenarateBtn Icon={Send} Text={showText &&"Send"} className="btn"/>
+        <DIV onClick={handleClick}>
+            <GenarateBtn Icon={Like} Text={showText && "Like"} className={`btn like-data-set ${isLiked && "liked-color"}`}/>
+            <GenarateBtn Icon={Comment} Text={showText &&"Comment"} className="btn comment-data-set"/>
+            <GenarateBtn Icon={Share} Text={showText &&"Share"} className="btn share-data-set"/>
+            <GenarateBtn Icon={Send} Text={showText &&"Send"} className="btn send-data-set"/>
         </DIV>
     )
 }
@@ -48,6 +66,12 @@ const DIV=styled.div`
                     font-size: inherit;
                 }
             } 
+
+            .liked-color{
+                color: #0090ff;   
+                transition:all .1s;
+            }
+
 
 `;      
 

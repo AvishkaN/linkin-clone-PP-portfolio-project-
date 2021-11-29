@@ -4,6 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { DeletePost } from './redux/postSlice';
 import {  closeOverlayFN,closeMeassageFN,openPostEditor,closePostEditor} from './redux/clickSlice';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 
 
@@ -11,18 +12,28 @@ import { useDispatch } from 'react-redux';
 function Comp(id) {
 
     const dispatch=useDispatch();
+    const history=useHistory();
 
-    const deleteHandler=()=>{
+    const deleteHandler=async ()=>{
 
 
-        DeletePost(id,dispatch);
+        await  DeletePost(id,dispatch);
+
+        if(history.location.pathname.startsWith("/posts")){
+            history.push("/"); 
+        }
     };
 
-    const handleEdit=()=>{
+    const handleEdit=async()=>{  
 
 
-        dispatch(openPostEditor(),id)
-        dispatch(closeMeassageFN())
+        await dispatch(openPostEditor(),id)
+        await dispatch(closeMeassageFN())
+
+        
+        if(history.location.pathname.startsWith("/posts")){
+            history.push("/"); 
+        }
     };
 
     return (   

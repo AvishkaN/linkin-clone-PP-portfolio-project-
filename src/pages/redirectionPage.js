@@ -9,7 +9,6 @@ function Comp() {
     return (   
         <DIV>
             redirecting....
-            {console.log(history)}
             {history.push("/register")}
         </DIV>
     )
