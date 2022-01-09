@@ -36,7 +36,7 @@ const genarateDate=(timeStamp)=>{
 const CheckisLiked=(likedBy,user)=>{
     let isLiked=false;
 
-    if(likedBy.filter(email=>email==user.email).length){
+    if(likedBy?.filter(email=>email==user.email).length){
         isLiked=!isLiked;
           
     }
