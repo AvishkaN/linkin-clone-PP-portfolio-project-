@@ -49,7 +49,7 @@ function Home() {
 
 const DIV=styled.div`   
     position: relative;
-    margin-top: 57px;
+    margin-top: 80px;      
 
 .content{
 
